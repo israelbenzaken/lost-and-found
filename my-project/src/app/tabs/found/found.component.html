@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+        <div
+        id="user-data"
+        ngModelGroup="userData"
+        #userData="ngModelGroup">
+        <div class="form-group">
+          <label for="Yourname">*Full Name</label>
+          <input
+          type="text"
+          id="Yourname"
+          class="form-control"
+          ngModel
+          name="Yourname"
+          required>
+        </div>
+        <div class="form-group">
+          <label for="email">*Mail</label>
+          <input
+          type="email"
+          id="email"
+          class="form-control"
+          ngModel
+          name="email"
+          required
+          email
+          #email="ngModel">
+          <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email !</span>
+        </div>
+        <div class="form-group">
+          <label for="phoneNumber">phone Number</label>
+          <input
+          type="phoneNumber"
+          id="phoneNumber"
+          class="form-control"
+          ngModel
+          name="phoneNumber"
+          required
+          phoneNumber>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="objType">Object Type</label>
+        <select
+        id="objType"
+        class="form-control"
+        [ngModel]="defaultType"
+        name="objType">
+        <option value="phone">phone</option>
+        <option value="computer">computer</option>
+        <option value="money">money</option>
+        <option value="other">other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="Description">Description</label>
+      <textarea
+      name="Description"
+      rows="3"
+      class="form-control"
+      [(ngModel)]="Description"></textarea>
+    </div>
+    <p>Your Description: {{ Description }}</p>
+
+    <div class="form-group">
+     <label for="locationFound">Your Location</label>
+     <input type="text" name="locationFound" class="form-control" id="locationFound" required ngModel placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" #search >
+     <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+      <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
+    </sebm-google-map>
+
+  </div>
+  <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Submit</button>
+</form>
+</div>
+</div>
+<hr>
+<div class="row" *ngIf="submitted">
+  <div class="col-xs-12">
+    <h3>Your Data</h3>
+    <p>Full Name: {{ user.Yourname }}</p>
+    <p>Mail: {{ user.email }}</p>
+    <p>Phone Number: {{ user.phoneNumber }}</p>
+    <p>Object Type: You found {{ user.objType }}</p>
+    <p>Description: {{ user.Description }}</p>
+    <p>location Found: {{ user.locationFound }}</p>
+  </div>
+</div>
+</div>

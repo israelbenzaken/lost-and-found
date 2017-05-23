@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+			<form (ngSubmit)="onSubmit()" #f="ngForm">
+				<div class="form-group">
+					<label for="objType">Object Type</label>
+					<select
+					id="objType"
+					class="form-control"
+					[ngModel]="defaultType"
+					name="objType">
+					<option value="phone">phone</option>
+					<option value="computer">computer</option>
+					<option value="money">money</option>
+				</select>
+			</div>
+			<div class="form-group">
+			<label for="Description">Description</label>
+				<textarea
+				name="Description"
+				rows="3"
+				class="form-control"
+				[(ngModel)]="Description"></textarea>
+			</div>
+
+			<div class="form-group">
+				<label for="locationLost">Location</label>
+				<input type="text" name="locationLost" class="form-control" id="locationLost" required ngModel>
+			</div>
+			<button
+			class="btn btn-primary"
+			type="submit"
+			[disabled]="!f.valid">Submit</button>
+		</form>
+	</div>
+</div>
+</div>
