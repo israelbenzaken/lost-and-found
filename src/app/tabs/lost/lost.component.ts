@@ -3,6 +3,8 @@ import { NgForm ,FormControl} from '@angular/forms';
 import { MapsAPILoader} from 'angular2-google-maps/core';
 import {} from '@types/googlemaps';
 
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+
 declare var google: any;
 
 @Component({
@@ -10,7 +12,11 @@ declare var google: any;
 	templateUrl: './lost.component.html',
 	styleUrls: ['./lost.component.css']
 })
-export class LostComponent implements OnInit {
+export class LostComponent implements OnInit{
+
+	items: FirebaseListObservable<any>;
+
+	// item: FirebaseListObservable <any>;
 
 	// maps
 	public latitude: number;
@@ -31,10 +37,9 @@ export class LostComponent implements OnInit {
 	};
 	submitted = false;
 
-	constructor(
-		private mapsAPILoader: MapsAPILoader,
-		private ngZone: NgZone
-		) {}
+	constructor(private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,db: AngularFireDatabase){
+		this.items = db.list('/foundList');
+	}
 
 	ngOnInit() {
 		this.zoom = 4;
@@ -87,7 +92,18 @@ export class LostComponent implements OnInit {
 		this.user.Description = this.signupForm.value.Description;
 		this.user.locationFound = this.signupForm.value.locationFound;
 
-		this.signupForm.reset();
-	}
 
-}
+		// this.item.push({ 
+			// 	name: this.signupForm.value.userData.Yourname,
+			// 	phone : this.signupForm.value.userData.phoneNumber,
+			// 	email: this.signupForm.value.userData.email,
+			// 	objType : this.signupForm.value.objType,
+			// 	Description : this.signupForm.value.Description,
+			// 	locationFound: this.signupForm.value.locationFound
+			// });
+
+
+			this.signupForm.reset();
+		}
+
+	}

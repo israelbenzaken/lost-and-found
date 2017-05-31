@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes,RouterModule} from '@angular/router';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -34,6 +38,10 @@ const appRoutes: Routes=[
       libraries: ['places']
     }),
   BrowserModule,
+  AngularFireModule.initializeApp(environment.firebase,'LostAndFound'),// imports firebase/app needed for everything
+  AngularFireDatabaseModule, // imports firebase/database, only needed for database features
+  AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+
   FormsModule,
   HttpModule,
   RouterModule.forRoot(appRoutes)

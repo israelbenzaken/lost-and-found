@@ -1,6 +1,7 @@
 import { Component, OnInit,ViewChild,ElementRef, NgZone } from '@angular/core';
 import { NgForm ,FormControl} from '@angular/forms';
 import { MapsAPILoader} from 'angular2-google-maps/core';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import {} from '@types/googlemaps';
 
 declare var google: any;
@@ -11,6 +12,8 @@ declare var google: any;
 	styleUrls: ['./found.component.css']
 })
 export class FoundComponent implements OnInit {
+
+	item: FirebaseListObservable <any>;
 
 	// maps
 	public latitude: number;
@@ -34,10 +37,10 @@ export class FoundComponent implements OnInit {
 	};
 	submitted = false;
 
-	constructor(
-		private mapsAPILoader: MapsAPILoader,
-		private ngZone: NgZone
-		) {}
+
+	constructor(private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,db: AngularFireDatabase){
+		this.item = db.list('/foundList');
+	}
 
 	ngOnInit() {
 		this.zoom = 4;
@@ -93,6 +96,14 @@ export class FoundComponent implements OnInit {
 		this.user.objType = this.signupForm.value.objType;
 		this.user.Description = this.signupForm.value.Description;
 		this.user.locationFound = this.signupForm.value.locationFound;
+
+		this.item.push({ name: this.signupForm.value.userData.Yourname,
+			phone : this.signupForm.value.userData.phoneNumber,
+			email: this.signupForm.value.userData.email,
+			objType : this.signupForm.value.objType,
+			Description : this.signupForm.value.Description,
+			locationFound: this.signupForm.value.locationFound
+		});
 
 		this.signupForm.reset();
 	}
